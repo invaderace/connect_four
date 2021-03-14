@@ -4,6 +4,8 @@
 class Disc
   attr_accessor :color
 
-  def initialize
+  def initialize(color)
+    @color = color
   end
+
 end
