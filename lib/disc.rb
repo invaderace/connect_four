@@ -8,4 +8,9 @@ class Disc
     @color = color
   end
 
+  def ==(other)
+    return false if other.nil?
+    
+    self.color == other.color
+  end
 end
