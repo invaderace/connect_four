@@ -15,4 +15,13 @@ class Player
   def make_disc
     Disc.new(@color)
   end
+
+  def choose_column
+    gets.chomp.to_i
+  end
+
+  # # drop coin in array
+  # def drop(array)
+  #   array.push(make_disc)
+  # end
 end
