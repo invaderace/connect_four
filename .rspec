@@ -1,1 +1,4 @@
 --require spec_helper
+--require player
+--require board
+--require game
