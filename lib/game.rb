@@ -4,9 +4,11 @@ require 'pry'
 
 require_relative 'board'
 require_relative 'player'
+require_relative 'displayable'
 
 #
 class Game
+  include Displayable
   attr_accessor :player1, :player2, :current_player, :board
 
   def initialize
@@ -28,31 +30,51 @@ class Game
     current_player == player1 ? player2 : player1
   end
 
+  def setup
+    refresh(board.grid)
+  end
+
   def turn
-    # prompt the player
-    column = current_player.choose_column
+    whoops if board_full?
+    prompt(@current_player)
+    column = current_player.choose_column - 1
     try(column)
-    board.grid.each { |x| p x } #########
-    # input only the column (x) here. (y) will populate as the last disc dropped.
+    refresh(board.grid)
     win = board.winning?(column)
-    # binding.pry
     congratulate(current_player) if win == true
-    # update screen
     @current_player = change_players
     turn
+  end
+
+  def prompt(player)
+    puts "#{player.name}, where will you go?".center(LINE_WIDTH)
   end
 
   def try(column)
     if board.column_valid?(column)
       board.drop(column, current_player.make_disc)
     else
-      # tell not valid
+      refresh(board.grid)
+      display(tell[:invalid])
       turn
     end
   end
 
   def congratulate(player)
-    puts "#{player.name} is the winner! Congrats, #{player.name}!"
+    puts "#{player.name} is the winner! Congrats, #{player.name}!".center(LINE_WIDTH)
+    exit
+  end
+
+  def board_full?
+    full = board.grid.all? do |column|
+      column.length == 6
+    end
+
+    full
+  end
+
+  def whoops
+    display("Whoops, the board is full!")
     exit
   end
 end

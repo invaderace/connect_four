@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
-
 require_relative '../lib/board.rb'
 
 describe Board do

@@ -18,6 +18,8 @@ class Board
   end
 
   def column_valid?(column)
+    return false if (column < 0 || column > 6)
+
     return false if grid[column].length > 5
 
     return true
